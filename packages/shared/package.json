@@ -1,0 +1,11 @@
+{
+  "name": "@lp-engine/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "ethers": "^6.13.0"
+  }
+}
