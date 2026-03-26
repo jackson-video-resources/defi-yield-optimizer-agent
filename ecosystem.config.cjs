@@ -25,7 +25,7 @@ module.exports = {
       script: "npx",
       args: "tsx packages/execution-engine/src/index.ts",
       cwd: "/Users/lewisjackson/defi-lp-engine",
-      env: { NODE_ENV: "production", PORT: 4003 },
+      env: { NODE_ENV: "production", PORT: 4003, PORT_EXECUTION: 4003 },
       max_restarts: 10,
       restart_delay: 5000,
       watch: false,

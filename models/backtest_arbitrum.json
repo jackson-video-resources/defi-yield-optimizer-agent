@@ -1,0 +1,26 @@
+{
+  "chain": "arbitrum",
+  "ai": {
+    "strategy": "AI",
+    "capital_initial": 10000.0,
+    "fees_total": 85.76366716006476,
+    "gas_total": 0.0,
+    "net_pnl": 85.76366716006476,
+    "apy_pct": 1.7290902746194874,
+    "rebalances": 0,
+    "in_range_pct": 71.27733026467203,
+    "period_hours": 4345
+  },
+  "qhvn": {
+    "strategy": "QHVN (Fixed 4h)",
+    "capital_initial": 10000.0,
+    "fees_total": 110.38820623710875,
+    "gas_total": 2172.0,
+    "net_pnl": -2061.6117937628915,
+    "apy_pct": -41.56437126205507,
+    "rebalances": 1086,
+    "in_range_pct": 99.81588032220944,
+    "period_hours": 4345
+  },
+  "apy_improvement": 43.293461536674556
+}

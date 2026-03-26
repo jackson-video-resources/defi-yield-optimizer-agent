@@ -1,0 +1,44 @@
+{
+  "half_range_ticks": 10,
+  "out_of_range_tolerance_min": 30,
+  "gas_payback_hours": 2,
+  "rules": [
+    {
+      "id": 1,
+      "condition": "out_of_range AND duration_min > out_of_range_tolerance_min",
+      "action": "CHECK_GAS",
+      "description": "Out of range beyond tolerance \u2192 check if gas is worth it"
+    },
+    {
+      "id": 2,
+      "condition": "gas_cost_usd > gas_payback_hours * expected_hourly_fee",
+      "action": "WAIT",
+      "description": "Gas cost too high relative to expected fee income"
+    },
+    {
+      "id": 3,
+      "condition": "out_of_range AND high_predicted_vol AND duration_min < 120",
+      "action": "WAIT",
+      "description": "Out of range during high volatility \u2014 price may return"
+    },
+    {
+      "id": 4,
+      "condition": "in_range AND price_pct_to_edge > 80",
+      "action": "REBALANCE",
+      "description": "Preemptive rebalance when at 80% toward range edge"
+    },
+    {
+      "id": 5,
+      "condition": "in_range AND low_vol AND earning_fees",
+      "action": "WAIT",
+      "description": "Earning fees in range with low volatility \u2014 stay put"
+    }
+  ],
+  "performance": {
+    "annualized_apy_pct": 1.7217320589936032,
+    "in_range_pct": 71.27733026467203,
+    "rebalances_per_6months": 0
+  },
+  "gas_cost_usd": 2.0,
+  "fee_tier": 0.0001
+}

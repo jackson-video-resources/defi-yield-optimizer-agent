@@ -12,7 +12,9 @@
     "logs": "pm2 logs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "data": "tsx packages/data-service/src/index.ts"
+    "data": "tsx packages/data-service/src/index.ts",
+    "dashboard:dev": "vite packages/dashboard/client --config packages/dashboard/client/vite.config.ts --port 5173",
+    "dashboard:build": "vite build packages/dashboard/client --config packages/dashboard/client/vite.config.ts"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

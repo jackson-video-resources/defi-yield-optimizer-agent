@@ -38,51 +38,66 @@ export const TOKEN_ADDRESSES: Record<Chain, Record<string, string>> = {
   },
 };
 
-// Target stablecoin pools (USDC/USDT 0.01% fee tier — highest capital efficiency)
+// Ethereum mainnet USDC/USDT 0.01% — used for ML training data (rich volume history)
+// L2 USDC/USDT pools have near-zero on-chain volume; mainnet has $100K-2M/hr volume
+// On-chain execution addresses:
+//   Arbitrum USDC/USDT 0.01%: 0xbE3aD6a5669dc0B8B12FeBC03608860c31E2eEF6
+//   Base USDC/USDbC 0.01%:    0x06959273e9a65433de71f5a452d529544e07ddd0
+//   Optimism USDC/USDT 0.01%: 0xa73c628eaf6e283e26a7b1f8001cf186aa4c0e8e
+export const EXECUTION_POOL_ADDRESSES: Record<Chain, string> = {
+  arbitrum: "0xbE3aD6a5669dc0B8B12FeBC03608860c31E2eEF6",
+  base: "0x06959273e9a65433de71f5a452d529544e07ddd0",
+  optimism: "0xa73c628eaf6e283e26a7b1f8001cf186aa4c0e8e",
+};
+
+// Target pools for data ingestion — all use the Ethereum mainnet USDC/USDT pool
+// which has the richest volume history ($39M TVL, $400K-2M/hr volume).
+// L2 stablecoin pools are illiquid for subgraph data (volume≈0) but execute fine on-chain.
 export const TARGET_POOLS: Pool[] = [
-  // Arbitrum — USDC/USDT 0.01%
+  // Arbitrum training data — mainnet USDC/USDT 0.01% proxy
   {
-    address: "0xbE3aD6a5669Dc0B8b12FeBC03608098543307a9c",
+    address: "0x3416cf6c708da44db2624d63ea0aaef7113527c6",
     chain: "arbitrum",
-    token0: TOKEN_ADDRESSES.arbitrum.USDT,
-    token1: TOKEN_ADDRESSES.arbitrum.USDC,
-    token0Symbol: "USDT",
-    token1Symbol: "USDC",
+    token0: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48", // mainnet USDC
+    token1: "0xdac17f958d2ee523a2206206994597c13d831ec7", // mainnet USDT
+    token0Symbol: "USDC",
+    token1Symbol: "USDT",
     feeTier: 100,
     tickSpacing: 1,
   },
-  // Base — USDC/USDbC 0.01%
+  // Base training data — same mainnet pool (all patterns are chain-agnostic)
   {
-    address: "0x6c561B446416E1A00E8E93E221854d6eA4171372",
+    address: "0x3416cf6c708da44db2624d63ea0aaef7113527c6",
     chain: "base",
-    token0: TOKEN_ADDRESSES.base.USDbC,
-    token1: TOKEN_ADDRESSES.base.USDC,
-    token0Symbol: "USDbC",
-    token1Symbol: "USDC",
+    token0: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    token1: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+    token0Symbol: "USDC",
+    token1Symbol: "USDT",
     feeTier: 100,
     tickSpacing: 1,
   },
-  // Optimism — USDC/USDT 0.01%
+  // Optimism training data — same mainnet pool
   {
-    address: "0x2aB22ac86b25BD448A4D9dC041Bd2384655299c4",
+    address: "0x3416cf6c708da44db2624d63ea0aaef7113527c6",
     chain: "optimism",
-    token0: TOKEN_ADDRESSES.optimism.USDT,
-    token1: TOKEN_ADDRESSES.optimism.USDC,
-    token0Symbol: "USDT",
-    token1Symbol: "USDC",
+    token0: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+    token1: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+    token0Symbol: "USDC",
+    token1Symbol: "USDT",
     feeTier: 100,
     tickSpacing: 1,
   },
 ];
 
 // The Graph decentralized network — requires GRAPH_API_KEY env var
-// Get free key at: https://thegraph.com/studio/ → API Keys tab
-// Subgraph IDs: Arbitrum, Base, Optimism Uniswap V3
+// All chains use the Ethereum mainnet Uniswap V3 subgraph for training data quality.
+// (Subgraph ID: 5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV — $39M TVL, rich hourly data)
 const GRAPH_KEY = process.env.GRAPH_API_KEY || "GRAPH_API_KEY_REQUIRED";
+const MAINNET_SUBGRAPH = `https://gateway.thegraph.com/api/${GRAPH_KEY}/subgraphs/id/5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV`;
 export const SUBGRAPH_URLS: Record<Chain, string> = {
-  arbitrum: `https://gateway.thegraph.com/api/${GRAPH_KEY}/subgraphs/id/FbCGRftH4a3yZugY7TnbYgPJVEv2LvMT6oF1fxPe9aem`,
-  base: `https://gateway.thegraph.com/api/${GRAPH_KEY}/subgraphs/id/GqzP4Xaehti8KSfQmv3ZctFSjnSUYZ4En5NRsiTbvZpz`,
-  optimism: `https://gateway.thegraph.com/api/${GRAPH_KEY}/subgraphs/id/Cghf4LfVqPiFw6fp6Y5X5Ubc8UpmUhSfJL82zwiBFLaj`,
+  arbitrum: MAINNET_SUBGRAPH,
+  base: MAINNET_SUBGRAPH,
+  optimism: MAINNET_SUBGRAPH,
 };
 
 // Fee tiers

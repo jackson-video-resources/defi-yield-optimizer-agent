@@ -1,0 +1,4 @@
+ml-training/
+node_modules/
+.git/
+*.log

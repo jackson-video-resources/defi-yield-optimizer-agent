@@ -1,0 +1,22 @@
+{
+  "features": [
+    "max_deviation_pct",
+    "avg_deviation_pct",
+    "deviation_change_1h",
+    "max_deviation_24h",
+    "n_deviating_coins"
+  ],
+  "n_features": 5,
+  "thresholds": {
+    "alert": 0.1,
+    "widen": 0.3,
+    "exit": 0.7
+  },
+  "stablecoins": [
+    "USDC",
+    "USDT",
+    "DAI",
+    "USDe",
+    "USDbC"
+  ]
+}
