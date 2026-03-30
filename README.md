@@ -1,8 +1,8 @@
-# DeFi LP Engine — AI-Driven Concentrated Liquidity Market Maker
+# DeFi Yield Optimizer Agent
 
 > **54.7% APY. 0% drawdown. $0 in gas fees. Running 24/7 on autopilot.**
 >
-> This is the complete open-source system I built to reverse-engineer and outperform a professional hedge fund's DeFi yield strategy — using Claude Code, Uniswap V3, and a handful of AI models. Watch the full build masterclass below, then deploy your own copy in minutes.
+> The complete open-source AI agent I built to outperform a professional hedge fund's DeFi yield strategy — using Claude Code, Uniswap V3, and a handful of AI models. Watch the full build masterclass below, then deploy your own copy in minutes.
 
 [![Watch the Masterclass](https://img.shields.io/badge/YouTube-Watch%20the%20Masterclass-red?style=for-the-badge&logo=youtube)](https://youtube.com/@lewisjackson)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
@@ -11,8 +11,8 @@
 
 ## The Numbers
 
-| Metric | This Strategy | QHVN (Hedge Fund Benchmark) |
-|--------|--------------|------------------------------|
+| Metric | This Agent | Hedge Fund Benchmark |
+|--------|-----------|----------------------|
 | APY | **54.7%** | 18.57% |
 | Drawdown | **0%** | 0% |
 | Gas spent (30 days) | **$0** | $696 |
@@ -29,7 +29,7 @@ Concentrated liquidity market making means you deposit two stablecoins (e.g. USD
 
 The problem with doing this manually (or with fixed rules like the hedge fund benchmark) is gas. Every time you "rebalance" to recenter your position, you pay a transaction fee. Rebalance too often and the gas eats your yield entirely.
 
-**This system uses AI to decide when rebalancing is actually worth it.** The answer, most of the time, is: it isn't. Stablecoin pairs barely move. The AI watches the pool, forecasts volatility, and only rebalances when the maths says the fee recovery justifies the gas cost. Otherwise it does nothing — and collects yield.
+**This agent uses AI to decide when rebalancing is actually worth it.** The answer, most of the time, is: it isn't. Stablecoin pairs barely move. The AI watches the pool, forecasts volatility, and only rebalances when the maths says the fee recovery justifies the gas cost. Otherwise it does nothing — and collects yield.
 
 ---
 
@@ -78,7 +78,7 @@ The fastest path: copy the prompt from [SETUP.md](SETUP.md), paste it into Claud
 npm install -g @anthropic-ai/claude-code
 
 # 2. Create a new folder
-mkdir my-lp-engine && cd my-lp-engine
+mkdir my-yield-agent && cd my-yield-agent
 
 # 3. Open Claude Code and paste the prompt from SETUP.md
 claude
@@ -101,8 +101,8 @@ If you want to understand every piece before deploying:
 
 ### 1. Clone and install
 ```bash
-git clone https://github.com/jackson-video-resources/defi-lp-engine
-cd defi-lp-engine
+git clone https://github.com/jackson-video-resources/defi-yield-optimizer-agent
+cd defi-yield-optimizer-agent
 npm install
 ```
 
@@ -174,7 +174,7 @@ railway add --database postgres
 railway up
 ```
 
-Set environment variables in Railway dashboard, then your strategy runs 24/7 regardless of whether your laptop is on.
+Set environment variables in Railway dashboard, then your agent runs 24/7 regardless of whether your laptop is on.
 
 Full deployment guide: [docs/railway-deployment.md](docs/railway-deployment.md)
 
@@ -186,7 +186,7 @@ When you're ready to trade with real money:
 
 1. Set `PAPER_TRADING=false` in your `.env`
 2. Fund your generated wallets with USDC on Arbitrum, Base, and Optimism
-3. The system handles everything from there
+3. The agent handles everything from there
 
 Start small. The system is designed to scale — the strategy works the same whether you're deploying $1,000 or $1,000,000.
 

@@ -1,4 +1,4 @@
-# Video Outline — DeFi LP Engine Masterclass
+# Video Outline — DeFi Yield Optimizer Agent Masterclass
 
 **Title options:**
 - "I Built a System That Earns 54% APY With Zero Drawdown — And I'm Giving It Away For Free"
@@ -85,7 +85,7 @@ Show the `.env.example` file briefly. Explain each variable takes 2 minutes to f
 
 ### 4.1 — Starting fresh with Claude Code (23:00–25:00)
 ```bash
-mkdir my-lp-engine && cd my-lp-engine
+mkdir my-yield-agent && cd my-yield-agent
 claude
 ```
 - Show Claude Code interface
@@ -135,8 +135,8 @@ claude
 - Switch to ml-training/
 - `python3 backtest/backtest_engine.py --chain arbitrum --capital 10000`
 - Watch the results print
-- Show the comparison: AI vs QHVN
-- "This is 30 days of real historical data. The AI made 0 rebalances. QHVN made 116."
+- Show the comparison: AI vs hedge fund benchmark
+- "This is 30 days of real historical data. The AI made 0 rebalances. The benchmark made 116."
 
 ### 4.9 — Paper trading is live (50:00–52:00)
 - `npm run dev` (or show Railway already running)
