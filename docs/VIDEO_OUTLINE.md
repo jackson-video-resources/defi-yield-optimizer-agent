@@ -66,14 +66,14 @@
    - Tip: use Wispr Flow to talk to it instead of typing (show briefly)
 2. **Node.js 20+** — `node --version`
 3. **PostgreSQL** — `brew install postgresql@16 && brew services start postgresql@16 && createdb defi_lp_engine`
-4. **Railway account** — railway.app, free to sign up
+4. **Hostinger VPS** — hostinger.com/lewisjackson10, cheapest KVM plan (~$5/mo)
 5. **The Graph API key** — thegraph.com/studio → API Keys → free tier
 6. **Alchemy or Infura** — free tier RPC endpoints (or use the public ones to start)
 7. **Telegram bot** — @BotFather → /newbot → copy your token and chat ID
 
 Show the `.env.example` file briefly. Explain each variable takes 2 minutes to fill in.
 
-**Cost check:** "Total: about $25/month when running on Railway. Paper trading mode: completely free."
+**Cost check:** "Total: about $25/month when running on a Hostinger VPS. Paper trading mode: completely free."
 
 ---
 
@@ -139,32 +139,33 @@ claude
 - "This is 30 days of real historical data. The AI made 0 rebalances. The benchmark made 116."
 
 ### 4.9 — Paper trading is live (50:00–52:00)
-- `npm run dev` (or show Railway already running)
+- `npm run dev` (or show the Hostinger VPS already running)
 - Show positions opening in the dashboard
 - Show the first Telegram notification: "Opened position on Arbitrum: USDC/USDT, ticks [-5, +15]"
 - "It's running. It's paper trading. It will collect virtual fees every minute until you decide to go live."
 
 ---
 
-## SECTION 5 — RAILWAY DEPLOYMENT (52:00–57:00)
+## SECTION 5 — HOSTINGER VPS DEPLOYMENT (52:00–57:00)
 
 **Goal:** Show how to make it run 24/7 without your laptop.
 
+- Grab the cheapest Hostinger KVM VPS: https://hostinger.com/lewisjackson10 (~$5/mo)
+
 ```bash
-npm install -g @railway/cli
-railway login
-railway init
-railway add --database postgres
+ssh root@YOUR_VPS_IP
+apt update && apt install -y nodejs npm git postgresql
+git clone <your-repo-url> defi-lp-engine && cd defi-lp-engine
+npm install && cp .env.example .env   # walk through each env var
+npm run db:push
+pm2 start ecosystem.config.cjs && pm2 save && pm2 startup
 ```
 
-- Set environment variables in Railway dashboard (walk through each one)
-- `railway up`
-- Show the deployment succeeding
-- Show both services (data-service + execution-engine) running in Railway dashboard
-- Check logs: "Backfilling historical data... 13,029 rows loaded"
-- Show execution-engine opening positions on Railway
-- "Your laptop can be off. This is running on Railway's servers."
-- Monthly cost: ~$5-10
+- Show the services coming up under `pm2 ls`
+- Check logs: `pm2 logs` → "Backfilling historical data... 13,029 rows loaded"
+- Show execution-engine opening positions on the VPS
+- "Your laptop can be off. This is running on your own server."
+- Monthly cost: ~$5
 
 ---
 
@@ -172,7 +173,7 @@ railway add --database postgres
 
 **Brief section — this is the one thing viewers do themselves.**
 
-1. Set `PAPER_TRADING=false` in Railway env vars
+1. Set `PAPER_TRADING=false` in the `.env` on the VPS (then `pm2 restart all`)
 2. Fund the wallet address Claude Code generated for you (show the address)
 3. "Send USDC to this address on Arbitrum, Base, and Optimism. That's it. The system takes over."
 4. How much to start with: "Start small. $100-$500. Watch it for a week. Scale up if you're comfortable."
@@ -209,7 +210,7 @@ railway add --database postgres
 - Dashboard running: record a continuous screen capture — use this throughout
 - Telegram notifications: record a few real ones pinging on phone
 - The backtest numbers printing: record in real time (it takes ~10s, good tension)
-- Railway build logs: good visual, show the "Successfully Built" green text
+- VPS deploy + `pm2 ls`: good visual, show all services coming online green
 - The comparison chart in the dashboard: hero visual, use in thumbnail
 - Wispr Flow: show briefly speaking to Claude Code rather than typing
 
@@ -230,7 +231,7 @@ railway add --database postgres
 43:00 - The real-time dashboard
 47:00 - Running the 30-day backtest
 50:00 - Paper trading goes live
-52:00 - Deploying to Railway (24/7)
+52:00 - Deploying to a Hostinger VPS (24/7)
 57:00 - Going live with real capital
 59:00 - The one-shot prompt (build it in 20 min)
 ```

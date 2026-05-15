@@ -36,7 +36,7 @@ The problem with doing this manually (or with fixed rules like the hedge fund be
 ## Architecture
 
 ```
-5 services, all deployed to Railway, all talking through PostgreSQL
+5 services, all running on a Hostinger VPS, all talking through PostgreSQL
 
 data-service     — Scans Uniswap V3 pools, backfills 6 months of history
 ml-inference     — ONNX model predictions (volume, volatility, depeg risk)
@@ -58,8 +58,8 @@ ML Training (offline, Python)
 | Requirement | Cost | Notes |
 |-------------|------|-------|
 | [Claude Code](https://claude.ai/code) | $20/mo | Does the entire build for you |
-| [Railway](https://railway.app) | ~$5/mo | 24/7 cloud hosting |
-| PostgreSQL | Free | Provisioned by Railway automatically |
+| [Hostinger VPS](https://hostinger.com/lewisjackson10) | ~$5/mo | 24/7 cloud hosting (recommended) |
+| PostgreSQL | Free | Runs on the VPS alongside the services |
 | [Alchemy](https://alchemy.com) or [Infura](https://infura.io) | Free tier | RPC endpoints for Arbitrum/Base/Optimism |
 | [The Graph API key](https://thegraph.com/studio/) | Free | Historical pool data |
 | Telegram bot | Free | Alerts via @BotFather |
@@ -87,7 +87,7 @@ claude
 Claude Code will:
 - Scaffold the entire monorepo
 - Generate encrypted wallets (you just send funds to the address it gives you)
-- Set up Railway with all 5 services
+- Set up the Hostinger VPS with all 5 services
 - Configure your Telegram alerts
 - Start paper trading immediately
 
@@ -164,19 +164,20 @@ http://localhost:4000
 
 ---
 
-## Railway Deployment (24/7)
+## Hostinger VPS Deployment (24/7)
+
+The recommended way to run all 5 services around the clock is a Hostinger VPS — the cheapest KVM plan (~$5/mo) handles the whole stack: **https://hostinger.com/lewisjackson10**
 
 ```bash
-npm install -g @railway/cli
-railway login
-railway init
-railway add --database postgres
-railway up
+ssh root@YOUR_VPS_IP
+apt update && apt install -y nodejs npm git postgresql
+git clone <your-repo-url> defi-lp-engine && cd defi-lp-engine
+npm install
+cp .env.example .env          # fill in your keys; point DATABASE_URL at the VPS Postgres
+npm run db:push
 ```
 
-Set environment variables in Railway dashboard, then your agent runs 24/7 regardless of whether your laptop is on.
-
-Full deployment guide: [docs/railway-deployment.md](docs/railway-deployment.md)
+Then start each service under PM2 (`pm2 start … --name <service>` for data-service, ml-inference, execution-engine, risk-service, dashboard) and run `pm2 save && pm2 startup`. Your agent now runs 24/7 regardless of whether your laptop is on — `pm2 logs` to watch it, and after a `git pull` just `pm2 restart all`.
 
 ---
 

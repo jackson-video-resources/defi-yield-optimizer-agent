@@ -7,7 +7,7 @@ Copy everything below this line and paste it into Claude Code in a fresh empty f
 ```
 You are going to build a complete AI-driven DeFi liquidity provisioning engine for me from scratch. This system earns passive yield by providing concentrated liquidity in stablecoin pools on Uniswap V3 across Arbitrum, Base, and Optimism. It uses AI models to decide when (and whether) to rebalance positions, minimising gas costs and maximising fee income.
 
-The entire system should end up running 24/7 on Railway with Telegram alerts. I want to start in paper trading mode so no real funds are at risk.
+The entire system should end up running 24/7 on a Hostinger VPS (https://hostinger.com/lewisjackson10) with Telegram alerts. I want to start in paper trading mode so no real funds are at risk.
 
 ## What you're building
 
@@ -154,11 +154,11 @@ Generate Drizzle migrations.
 - `train/tune_rebalance.py` — Grid search on thresholds → models/rebalance_thresholds.json
 - `backtest/backtest_engine.py` — Full strategy replay on historical data vs QHVN fixed-4h benchmark
 
-### Step 11: Railway deployment files
+### Step 11: Hostinger VPS deployment files
 
-- `railway.json` — NIXPACKS builder, ON_FAILURE restart policy, no startCommand (use NIXPACKS_START_CMD env var per service)
-- `nixpacks.toml` — nodejs_20, `npm install --ignore-scripts`, no start command
-- `ecosystem.config.cjs` — PM2 config for local dev with all 5 services
+- `ecosystem.config.cjs` — PM2 config running all 5 services; this is what keeps the system alive 24/7 on the VPS (and works for local dev too)
+- A short `deploy.md` — SSH into the Hostinger VPS, `git clone`, `npm install`, `npm run db:push`, `pm2 start ecosystem.config.cjs`, `pm2 save && pm2 startup`
+- ON_FAILURE / auto-restart is handled by PM2's restart policy in the ecosystem config
 
 ### Step 12: Environment and config
 
@@ -179,7 +179,7 @@ Once the code is complete:
 4. Open http://localhost:4000 for the dashboard
 5. Confirm paper trading is active with `curl localhost:4003/health`
 
-Show me the Telegram setup instructions and then ask if I'm ready to deploy to Railway for 24/7 operation.
+Show me the Telegram setup instructions and then ask if I'm ready to deploy to a Hostinger VPS for 24/7 operation.
 
 ## Important notes
 
